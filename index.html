@@ -288,6 +288,30 @@ function filterTable() {
     colorFilter.addEventListener('change', filterTable);
     searchInput.addEventListener('input', filterTable);
   </script>
+<script>
+function filterTable() {
+  const category = document.getElementById('categoryFilter').value.toLowerCase();
+  const color = document.getElementById('colorFilter').value.toLowerCase();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const rows = document.querySelectorAll('#editable tbody tr');
 
+  rows.forEach(row => {
+    const cells = row.getElementsByTagName('td');
+    const rowCategory = cells[2]?.textContent.toLowerCase(); // 3-я колонка — категория
+    const rowColor = cells[3]?.textContent.toLowerCase();    // 4-я колонка — цвет
+    const rowText = row.textContent.toLowerCase();           // весь текст строки
+
+    const matchCategory = category === 'все' || rowCategory.includes(category);
+    const matchColor = color === 'все' || rowColor.includes(color);
+    const matchSearch = search === '' || rowText.includes(search);
+
+    row.style.display = (matchCategory && matchColor && matchSearch) ? '' : 'none';
+  });
+}
+
+document.getElementById('categoryFilter').addEventListener('change', filterTable);
+document.getElementById('colorFilter').addEventListener('change', filterTable);
+document.getElementById('searchInput').addEventListener('input', filterTable);
+</script>
 </body>
 </html>
