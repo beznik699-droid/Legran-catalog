@@ -1,2 +1,42 @@
 <link rel="stylesheet" href="style.css">
 <head>
+.fade {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+tr {
+  transition: opacity 0.4s ease;
+}<script>
+function filterTable() {
+  const category = document.getElementById('categoryFilter').value.toLowerCase();
+  const color = document.getElementById('colorFilter').value.toLowerCase();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const rows = document.querySelectorAll('#editable tbody tr');
+
+  rows.forEach(row => {
+    const cells = row.getElementsByTagName('td');
+    const rowCategory = cells[2]?.textContent.toLowerCase();
+    const rowColor = cells[3]?.textContent.toLowerCase();
+    const rowText = row.textContent.toLowerCase();
+
+    const matchCategory = category === 'все' || rowCategory.includes(category);
+    const matchColor = color === 'все' || rowColor.includes(color);
+    const matchSearch = search === '' || rowText.includes(search);
+
+    if (matchCategory && matchColor && matchSearch) {
+      row.classList.remove('fade');
+      row.style.display = '';
+    } else {
+      row.classList.add('fade');
+      setTimeout(() => {
+        row.style.display = 'none';
+      }, 400); // совпадает с transition
+    }
+  });
+}
+
+document.getElementById('categoryFilter').addEventListener('change', filterTable);
+document.getElementById('colorFilter').addEventListener('change', filterTable);
+document.getElementById('searchInput').addEventListener('input', filterTable);
+</script>
