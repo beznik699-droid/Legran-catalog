@@ -238,6 +238,25 @@
       <!-- Добавь остальные строки по аналогии -->
     </tbody>
   </table>
+<script>
+document.getElementById('categoryFilter').addEventListener('change', filterTable);
+document.getElementById('colorFilter').addEventListener('change', filterTable);
+
+function filterTable() {
+  const category = document.getElementById('categoryFilter').value.toLowerCase();
+  const color = document.getElementById('colorFilter').value.toLowerCase();
+  const rows = document.querySelectorAll('#catalogTable tbody tr);
+
+  rows.forEach(row => {
+    const rowCategory = row.cells[2]?.textContent.toLowerCase();
+    const rowColor = row.cells[3]?.textContent.toLowerCase();
+
+    const matchCategory = category === 'все' || rowCategory.includes(category);
+    const matchColor = color === 'все' || rowColor.includes(color);
+
+    row.style.display = (matchCategory && matchColor) ? '' : 'none';
+    });
+}
 
   <script>
     const categoryFilter = document.getElementById('categoryFilter');
