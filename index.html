@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Каталог Etika</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f0f0f0; }
+    select, input { margin: 10px 5px 10px 0; padding: 5px; }
+    .filters { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Каталог Etika</h1>
+
+  <div class="filters">
+    <label for="categoryFilter">Категория:</label>
+    <select id="categoryFilter">
+      <option value="">Все</option>
+      <option value="Выключатель">Выключатель</option>
+      <option value="Переключатель">Переключатель</option>
+      <option value="Розетка">Розетка</option>
+      <option value="Рамка">Рамка</option>
+      <option value="Светорегулятор">Светорегулятор</option>
+      <option value="Термостат">Термостат</option>
+      <option value="Датчик">Датчик</option>
+      <option value="Кнопка">Кнопка</option>
+      <option value="Вывод кабеля">Вывод кабеля</option>
+      <option value="Коробка">Коробка</option>
+    </select>
+
+    <label for="colorFilter">Цвет:</label>
+    <select id="colorFilter">
+      <option value="">Все</option>
+      <option value="БЕЛ">Белый</option>
+      <option value="СЛНК">Слоновая кость</option>
+      <option value="АЛЮ">Алюминий</option>
+      <option value="АНТР">Антрацит</option>
+      <option value="Цветной">Цветной</option>
+    </select>
+
+    <input type="text" id="searchInput" placeholder="Поиск по названию или артикулу">
+  </div>
+
+  <table id="etikaTable">
+    <thead>
+      <tr>
+        <th>Артикул</th>
+        <th>Наименование</th>
+        <th>Категория</th>
+        <th>Цвет</th>
+        <th>Цена (сум)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Примерные строки, ты можешь вставить сюда все 192 позиции -->
+      <tr>
+        <td>LG 672201</td>
+        <td>Выкл 1кл БЕЛ ETIKA</td>
+        <td>Выключатель</td>
+        <td>БЕЛ</td>
+        <td>14000</td>
+      </tr>
+      <tr>
+        <td>LG 672315</td>
+        <td>Перекл 1кл с подсв СЛНК ETIKA</td>
+        <td>Переключатель</td>
+        <td>СЛНК</td>
+        <td>24000</td>
+      </tr>
+      <tr>
+        <td>LG 672294</td>
+        <td>Розетка заряд 2хUSB БЕЛ ETIKA</td>
+        <td>Розетка</td>
+        <td>БЕЛ</td>
+        <td>195000</td>
+      </tr>
+      <tr>
+        <td>LG 672540</td>
+        <td>Кор/накл монтаж 2п СЛНК ETIKA</td>
+        <td>Коробка</td>
+        <td>СЛНК</td>
+        <td>38000</td>
+      </tr>
+      <tr>
+        <td>LG 672330</td>
+        <td>Термостат д/пол СЛНК ETIKA</td>
+        <td>Термостат</td>
+        <td>СЛНК</td>
+        <td>890000</td>
+      </tr>
+      <!-- Добавь остальные строки по аналогии -->
+    </tbody>
+  </table>
+
+  <script>
+    const categoryFilter = document.getElementById('categoryFilter');
+    const colorFilter = document.getElementById('colorFilter');
+    const searchInput = document.getElementById('searchInput');
+    const table = document.getElementById('etikaTable');
+    const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    function filterTable() {
+      const category = categoryFilter.value.toLowerCase();
+      const color = colorFilter.value.toLowerCase();
+      const search = searchInput.value.toLowerCase();
+
+      for (let row of rows) {
+        const cells = row.getElementsByTagName('td');
+        const rowCategory = cells[2].textContent.toLowerCase();
+        const rowColor = cells[3].textContent.toLowerCase();
+        const rowText = row.textContent.toLowerCase();
+
+        const matchCategory = !category || rowCategory.includes(category);
+        const matchColor = !color || rowColor.includes(color);
+        const matchSearch = !search || rowText.includes(search);
+
+        row.style.display = (matchCategory && matchColor && matchSearch) ? '' : 'none';
+      }
+    }
+
+    categoryFilter.addEventListener('change', filterTable);
+    colorFilter.addEventListener('change', filterTable);
+    searchInput.addEventListener('input', filterTable);
+  </script>
+
+</body>
+</html>
