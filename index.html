@@ -13,45 +13,43 @@
   </style>
 </head>
 <body>
+<h1>Каталог Etika</h1>
 
- <h1>Каталог Etika</h1>
+<label for="categoryFilter">Категория:</label>
+<select id="categoryFilter">
+  <option value="все">Все</option>
+  <option value="выключатель">Выключатель</option>
+  <option value="переключатель">Переключатель</option>
+  <option value="розетка">Розетка</option>
+</select>
 
-  <label for="categoryFilter">Категория:</label>
-  <select id="categoryFilter">
-    <option value="">Все</option>
-    <option value="Выключатель">Выключатель</option>
-    <option value="Переключатель">Переключатель</option>
-    <option value="Розетка">Розетка</option>
-    <option value="Рамка">Рамка</option>
-    <option value="Светорегулятор">Светорегулятор</option>
-    <option value="Термостат">Термостат</option>
-    <option value="Датчик">Датчик</option>
-    <option value="Кнопка">Кнопка</option>
-    <option value="Вывод кабеля">Вывод кабеля</option>
-    <option value="Коробка">Коробка</option>
-  </select>
+<label for="colorFilter">Цвет:</label>
+<select id="colorFilter">
+  <option value="все">Все</option>
+  <option value="белый">Белый</option>
+  <option value="алюминий">Алюминий</option>
+</select>
 
-  <label for="colorFilter">Цвет:</label>
-  <select id="colorFilter">
-    <option value="">Все</option>
-    <option value="БЕЛ">Белый</option>
-    <option value="СЛНК">Слоновая кость</option>
-    <option value="АЛЮ">Алюминий</option>
-    <option value="АНТР">Антрацит</option>
-    <option value="Цветной">Цветной</option>
-  </select>
+<input type="text" id="searchInput" placeholder="Поиск по названию или артикулу">
 
-  <input type="text" id="searchInput" placeholder="Поиск по названию или артикулу">
+<table id="editable">
+  <thead>
+    <tr>
+      <th>Артикул</th>
+      <th>Наименование</th>
+      <th>Категория</th>
+      <th>Цвет</th>
+      <th>Цена</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>LG672210</td><td>Выключатель 1кл. бел. ETIKA</td><td>выключатель</td><td>белый</td><td>14100</td></tr>
+    <tr><td>LG672221</td><td>Переключатель 2кл. бел. ETIKA</td><td>переключатель</td><td>белый</td><td>25000</td></tr>
+    <tr><td>LG672351</td><td>Розетка 2К+З с/з алюминий ETIKA</td><td>розетка</td><td>алюминий</td><td>25000</td></tr>
+    <!-- Добавь свои строки -->
+  </tbody>
+</table>
 
-  <table id="etikaTable">
-
-    <thead>
-      <tr>
-        <th>Артикул</th>
-        <th>Наименование</th>
-        <th>Категория</th>
-        <th>Цвет</th>
-      </tr>
     </thead>
     <tbody>
       <!-- Примерные строки, ты можешь вставить сюда все 192 позиции -->
@@ -300,6 +298,31 @@ function filterTable() {
     const rowCategory = cells[2]?.textContent.toLowerCase(); // 3-я колонка — категория
     const rowColor = cells[3]?.textContent.toLowerCase();    // 4-я колонка — цвет
     const rowText = row.textContent.toLowerCase();           // весь текст строки
+
+    const matchCategory = category === 'все' || rowCategory.includes(category);
+    const matchColor = color === 'все' || rowColor.includes(color);
+    const matchSearch = search === '' || rowText.includes(search);
+
+    row.style.display = (matchCategory && matchColor && matchSearch) ? '' : 'none';
+  });
+}
+
+document.getElementById('categoryFilter').addEventListener('change', filterTable);
+document.getElementById('colorFilter').addEventListener('change', filterTable);
+document.getElementById('searchInput').addEventListener('input', filterTable);
+</script>
+  <script>
+function filterTable() {
+  const category = document.getElementById('categoryFilter').value.toLowerCase();
+  const color = document.getElementById('colorFilter').value.toLowerCase();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const rows = document.querySelectorAll('#editable tbody tr');
+
+  rows.forEach(row => {
+    const cells = row.getElementsByTagName('td');
+    const rowCategory = cells[2]?.textContent.toLowerCase();
+    const rowColor = cells[3]?.textContent.toLowerCase();
+    const rowText = row.textContent.toLowerCase();
 
     const matchCategory = category === 'все' || rowCategory.includes(category);
     const matchColor = color === 'все' || rowColor.includes(color);
