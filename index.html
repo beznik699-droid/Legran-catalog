@@ -13,6 +13,9 @@
   </style>
 </head>
 <body>
+<select id="categoryFilter">...</select>
+<select id="colorFilter">...</select>
+<table id="catalogTable">...</table>
 
   <h1>Каталог Etika</h1>
   </thead>
@@ -266,7 +269,26 @@
         row.style.display = (matchCategory && matchColor && matchSearch) ? '' : 'none';
       }
     }
+<script>
+document.getElementById('categoryFilter').addEventListener('change', filterTable);
+document.getElementById('colorFilter').addEventListener('change', filterTable);
 
+function filterTable() {
+  let category = document.getElementById('categoryFilter').value.toLowerCase();
+  let color = document.getElementById('colorFilter').value.toLowerCase();
+  let rows = document.querySelectorAll('#catalogTable tbody tr');
+
+  rows.forEach(row => {
+    let rowCategory = row.cells[2]?.textContent.toLowerCase(); // 3-я колонка
+    let rowColor = row.cells[3]?.textContent.toLowerCase();    // 4-я колонка
+
+    let matchCategory = category === 'все' || rowCategory.includes(category);
+    let matchColor = color === 'все' || rowColor.includes(color);
+
+    row.style.display = (matchCategory && matchColor) ? '' : 'none';
+  });
+}
+</script>
     categoryFilter.addEventListener('change', filterTable);
     colorFilter.addEventListener('change', filterTable);
     searchInput.addEventListener('input', filterTable);
